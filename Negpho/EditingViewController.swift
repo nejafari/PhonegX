@@ -121,13 +121,25 @@ class EditingViewController: UIViewController {
     var outputImage = CIImage();
     var newUIImage = UIImage();
     
+    var stackedProcessor = Processor()// {
+//        didSet {
+//            guard let original = self.originalImage else { return }
+//            self.image = try? stackedProcessor.process(image: original)
+//        }
+//    }
+    
     lazy var processesDataSource: ProcessDataSource = {
         return ProcessDataSource { [weak self] process in
             guard let self = self else { return }
             guard let original = self.originalImage else { return }
-            self.image = process(original)
+            
+            self.stackedProcessor.push(process: process)
+            self.image = try? self.stackedProcessor.process(image: original)
+//            guard let original = self.originalImage else { return }
+//            self.image = process(original)
         }
     }()
+    
     let lightsDataSource = LightsDataSource()
     
     var showsFilterCollectionView: Bool = false {
@@ -169,12 +181,17 @@ extension EditingViewController {
 
 class ProcessDataSource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate {
     typealias Process = (UIImage) -> UIImage
-    var processes: [Process] = []
-    let callback: (Process) -> Void
+    var processes: [ImageProcess] = []
+    let callback: (ImageProcess) -> Void
     
-    init(callback: @escaping (Process) -> Void) {
+    init(callback: @escaping (ImageProcess) -> Void) {
         self.callback = callback
         
+        processes.append(Sepia())
+        processes.append(Noir())
+        processes.append(Chrome())
+        
+        /*
         func SepiaProcess(image: UIImage) throws -> UIImage {
             guard let cgimage = image.cgImage else { return image }
             let ciimage = CIImage(cgImage: cgimage)
@@ -319,23 +336,35 @@ class ProcessDataSource: NSObject, UICollectionViewDataSource, UICollectionViewD
             let newImage = UIImage(cgImage: cgImage)
             return newImage
         }
+        */
     }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return processes.count
     }
+    
+    //hereeeeeeeeeeeeeeeeee
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! filtersCollectionViewCell
-        let f = processes[indexPath.item]
+        let imageProcessor = processes[indexPath.item]
+        
         if let image = cell.imageView.image {
-            cell.imageView.image = f(image)
+            
+            cell.imageView.image = try? imageProcessor.process(image: image)
+        
         }
         cell.layer.cornerRadius = 12
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let filter = processes[indexPath.item]
-        callback(filter)
+        let imageProcess = processes[indexPath.item]
+//        let filter: (UIImage) -> UIImage = { image in
+//            guard let updated = try? imageProcess.process(image: image) else { return image }
+//            return updated
+//        }
+        callback(imageProcess)
     }
 }
 
