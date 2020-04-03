@@ -43,16 +43,16 @@ extension ImageProcess {
         try AnyImageProcess.compose(first: self, second: other)
     }
 }
-struct processor: ImageProcess {
+final class Processor: ImageProcess {
     var processes:[ImageProcess]=[]
     
-    mutating func push(process: ImageProcess) {
+     func push(process: ImageProcess) {
         processes.append(process)
     }
-    mutating func DropLastProcess() {
+     func DropLastProcess() {
         processes = processes.dropLast()
     }
-    mutating func ReplaceLast(with process: ImageProcess) {
+     func ReplaceLast(with process: ImageProcess) {
         DropLastProcess()
         push(process: process)
     }
