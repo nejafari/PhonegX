@@ -37,7 +37,6 @@ class EditingViewController: UIViewController {
     }
     
     let brighnessQueue = DispatchQueue(label: "", qos: .userInitiated, attributes: .concurrent)
-    
     func adjustContrast(image: CIImage, level: Float) {
         brighnessQueue.async {
             guard let filter = CIFilter(name: "CIColorControls") else { fatalError("Unable to create filter.") }
@@ -46,13 +45,12 @@ class EditingViewController: UIViewController {
             filter.setValue(rawimgData, forKey: "inputImage")
             let outpuImage = filter.value(forKey: "outputImage")
             DispatchQueue.main.async {
-                self.myImage.image = UIImage(ciImage: outpuImage as! CIImage)
+                self.myImage.image = UIImage(ciImage: outpuImage as! CIImage) 
             }
         }
     }
     
     @IBAction func saveButton(_ sender: Any) {
-        
         func renderCompositeImage() -> UIImage? {
             UIGraphicsBeginImageContext(renderView.bounds.size)
             //[UIImage drawInRect:CGRectMake(0, 0, size.width, size.height)];
@@ -120,26 +118,16 @@ class EditingViewController: UIViewController {
     var context = CIContext();
     var outputImage = CIImage();
     var newUIImage = UIImage();
-    
-    var stackedProcessor = Processor()// {
-//        didSet {
-//            guard let original = self.originalImage else { return }
-//            self.image = try? stackedProcessor.process(image: original)
-//        }
-//    }
+    var stackedProcessor = Processor()
     
     lazy var processesDataSource: ProcessDataSource = {
         return ProcessDataSource { [weak self] process in
             guard let self = self else { return }
             guard let original = self.originalImage else { return }
-            
             self.stackedProcessor.push(process: process)
             self.image = try? self.stackedProcessor.process(image: original)
-//            guard let original = self.originalImage else { return }
-//            self.image = process(original)
         }
     }()
-    
     let lightsDataSource = LightsDataSource()
     
     var showsFilterCollectionView: Bool = false {
@@ -186,184 +174,36 @@ class ProcessDataSource: NSObject, UICollectionViewDataSource, UICollectionViewD
     
     init(callback: @escaping (ImageProcess) -> Void) {
         self.callback = callback
-        
         processes.append(Sepia())
         processes.append(Noir())
+        processes.append(Fade())
         processes.append(Chrome())
-        
-        /*
-        func SepiaProcess(image: UIImage) throws -> UIImage {
-            guard let cgimage = image.cgImage else { return image }
-            let ciimage = CIImage(cgImage: cgimage)
-            
-            guard let filter = CIFilter(name: "CISepiaTone") else { fatalError("Unable to create filter.") }
-            filter.setValue(ciimage, forKey: kCIInputImageKey)
-            filter.setValue(0.8, forKey: kCIInputIntensityKey)
-            
-            guard let output = filter.value(forKey: kCIOutputImageKey) as? CIImage else { fatalError() }
-            let newImage = UIImage(ciImage: output)
-            return newImage
-        }
-        
-        func NoirProcess(image: UIImage) throws -> UIImage {
-            guard let cgimage = image.cgImage else { return image }
-            let ciimage = CIImage(cgImage: cgimage)
-            
-            guard let filter = CIFilter(name: "CIPhotoEffectNoir") else { fatalError("Unable to create filter.") }
-            filter.setValue(ciimage, forKey: kCIInputImageKey)
-            
-            guard let output = filter.value(forKey: kCIOutputImageKey) as? CIImage else { fatalError() }
-            guard let cgImage = output.createCGImage() else { return image }
-            let newImage = UIImage(cgImage: cgImage)
-            return newImage
-        }
-        
-        func FaidProcess(image: UIImage) throws -> UIImage {
-            guard let cgimage = image.cgImage else { return image }
-            let ciimage = CIImage(cgImage: cgimage)
-            
-            guard let filter = CIFilter(name: "CIPhotoEffectFade") else { fatalError("Unable to create filter.") }
-            filter.setValue(ciimage, forKey: kCIInputImageKey)
-            
-            guard let output = filter.value(forKey: kCIOutputImageKey) as? CIImage else { fatalError() }
-            guard let cgImage = output.createCGImage() else { return image }
-            let newImage = UIImage(cgImage: cgImage)
-            return newImage
-        }
-        
-        func CCProcess(image: UIImage) throws -> UIImage {
-            guard let cgimage = image.cgImage else { return image }
-            let ciimage = CIImage(cgImage: cgimage)
-            
-            guard let filter = CIFilter(name: "CIColorControls") else { fatalError("Unable to create filter.") }
-            filter.setValue(ciimage, forKey: kCIInputImageKey)
-            filter.setValue(0.8, forKey: kCIInputContrastKey)
-            
-            guard let output = filter.value(forKey: kCIOutputImageKey) as? CIImage else { fatalError() }
-            guard let cgImage = output.createCGImage() else { return image }
-            let newImage = UIImage(cgImage: cgImage)
-            return newImage
-        }
-        
-        func ChromProcess(image: UIImage) throws -> UIImage {
-            guard let cgimage = image.cgImage else { return image }
-            let ciimage = CIImage(cgImage: cgimage)
-            
-            guard let filter = CIFilter(name: "CIPhotoEffectChrome") else { fatalError("Unable to create filter.") }
-            filter.setValue(ciimage, forKey: kCIInputImageKey)
-            
-            guard let output = filter.value(forKey: kCIOutputImageKey) as? CIImage else { fatalError() }
-            guard let cgImage = output.createCGImage() else { return image }
-            let newImage = UIImage(cgImage: cgImage)
-            return newImage
-        }
-        
-        func InstantProcess(image: UIImage) throws -> UIImage {
-            guard let cgimage = image.cgImage else { return image }
-            let ciimage = CIImage(cgImage: cgimage)
-            
-            guard let filter = CIFilter(name: "CIPhotoEffectInstant") else { fatalError("Unable to create filter.") }
-            filter.setValue(ciimage, forKey: kCIInputImageKey)
-            
-            guard let output = filter.value(forKey: kCIOutputImageKey) as? CIImage else { fatalError() }
-            guard let cgImage = output.createCGImage() else { return image }
-            let newImage = UIImage(cgImage: cgImage)
-            return newImage
-        }
-        
-        func BlueProcess(image: UIImage) throws -> UIImage {
-            guard let cgimage = image.cgImage else { return image }
-            let ciimage = CIImage(cgImage: cgimage)
-            
-            guard let filter = CIFilter(name: "CIPhotoEffectProcess") else { fatalError("Unable to create filter.") }
-            filter.setValue(ciimage, forKey: kCIInputImageKey)
-            
-            guard let output = filter.value(forKey: kCIOutputImageKey) as? CIImage else { fatalError() }
-            guard let cgImage = output.createCGImage() else { return image }
-            let newImage = UIImage(cgImage: cgImage)
-            return newImage
-        }
-        
-        func GammaProcess(image: UIImage) throws -> UIImage {
-            guard let cgimage = image.cgImage else { return image }
-            let ciimage = CIImage(cgImage: cgimage)
-            
-            guard let filter = CIFilter(name: "CIGammaAdjust") else { fatalError("Unable to create filter.") }
-            filter.setValue(ciimage, forKey: kCIInputImageKey)
-            
-            guard let output = filter.value(forKey: kCIOutputImageKey) as? CIImage else { fatalError() }
-            guard let cgImage = output.createCGImage() else { return image }
-            let newImage = UIImage(cgImage: cgImage)
-            return newImage
-        }
-        
-        func MonoProcess(image: UIImage) throws -> UIImage {
-            guard let cgimage = image.cgImage else { return image }
-            let ciimage = CIImage(cgImage: cgimage)
-            
-            guard let filter = CIFilter(name: "CIPhotoEffectMono") else { fatalError("Unable to create filter.") }
-            filter.setValue(ciimage, forKey: kCIInputImageKey)
-            
-            guard let output = filter.value(forKey: kCIOutputImageKey) as? CIImage else { fatalError() }
-            guard let cgImage = output.createCGImage() else { return image }
-            let newImage = UIImage(cgImage: cgImage)
-            return newImage
-        }
-        
-        func MatrixProcess(image: UIImage) throws -> UIImage {
-            guard let cgimage = image.cgImage else { return image }
-            let ciimage = CIImage(cgImage: cgimage)
-            
-            guard let filter = CIFilter(name: "CIColorMatrix") else { fatalError("Unable to create filter.") }
-            filter.setValue(ciimage, forKey: kCIInputImageKey)
-            
-            guard let output = filter.value(forKey: kCIOutputImageKey) as? CIImage else { fatalError() }
-            guard let cgImage = output.createCGImage() else { return image }
-            let newImage = UIImage(cgImage: cgImage)
-            return newImage
-        }
-        
-        func ExposureProcess(image: UIImage) throws -> UIImage {
-            guard let cgimage = image.cgImage else { return image }
-            let ciimage = CIImage(cgImage: cgimage)
-            
-            guard let filter = CIFilter(name: "CIExposureAdjust") else { fatalError("Unable to create filter.") }
-            filter.setValue(ciimage, forKey: kCIInputImageKey)
-            filter.setValue(0.8, forKey: kCIInputEVKey)
-            
-            guard let output = filter.value(forKey: kCIOutputImageKey) as? CIImage else { fatalError() }
-            guard let cgImage = output.createCGImage() else { return image }
-            let newImage = UIImage(cgImage: cgImage)
-            return newImage
-        }
-        */
+        processes.append(Instant())
+        processes.append(Blue())
+        processes.append(Gamma())
+        processes.append(Mono())
+        processes.append(Matrix())
+        processes.append(Exposure())
     }
-    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return processes.count
     }
-    
-    //hereeeeeeeeeeeeeeeeee
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! filtersCollectionViewCell
         let imageProcessor = processes[indexPath.item]
-        
         if let image = cell.imageView.image {
-            
             cell.imageView.image = try? imageProcessor.process(image: image)
-        
         }
         cell.layer.cornerRadius = 12
-        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let imageProcess = processes[indexPath.item]
-//        let filter: (UIImage) -> UIImage = { image in
-//            guard let updated = try? imageProcess.process(image: image) else { return image }
-//            return updated
-//        }
+        //let filter: (UIImage) -> UIImage = { image in
+        //            guard let updated = try? imageProcess.process(image: image) else { return image }
+        //            return updated
+        //        }
         callback(imageProcess)
     }
 }
@@ -412,20 +252,3 @@ extension CIImage {
         return context.createCGImage(self, from: self.extent)
     }
 }
-
-
-
-//        let exposure: (UIImage) -> UIImage = { image in
-//                   guard let cgimage = image.cgImage else { return image }
-//                   let ciimage = CIImage(cgImage: cgimage)
-//
-//                   guard let filter = CIFilter(name: "CIExposureAdjust") else { fatalError("Unable to create filter.") }
-//                   filter.setValue(ciimage, forKey: kCIInputImageKey)
-//                   filter.setValue(0.8, forKey: kCIInputEVKey)
-//
-//                   guard let output = filter.value(forKey: kCIOutputImageKey) as? CIImage else { fatalError() }
-//                   guard let cgImage = output.createCGImage() else { return image }
-//                   let newImage = UIImage(cgImage: cgImage)
-//                   return newImage
-//               }
-//               processes.append(exposure)
