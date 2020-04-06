@@ -38,14 +38,17 @@ class EditingViewController: UIViewController {
     
     let brighnessQueue = DispatchQueue(label: "", qos: .userInitiated, attributes: .concurrent)
     func adjustContrast(image: CIImage, level: Float) {
+        guard let image = self.image else { return }
+        let contrast = Contrast(level: level)
+        stackedProcessor.replaceLast(with: contrast)
+        
+        
         brighnessQueue.async {
-            guard let filter = CIFilter(name: "CIColorControls") else { fatalError("Unable to create filter.") }
-            filter.setValue(NSNumber(value: level), forKey: "inputContrast")
-            let rawimgData = image
-            filter.setValue(rawimgData, forKey: "inputImage")
-            let outpuImage = filter.value(forKey: "outputImage")
+            let newImage = try? self.stackedProcessor.process(image: image)
+//            let contrast = Contrast(level: level)
+//            let newImage = try? contrast.process(image: image)
             DispatchQueue.main.async {
-                self.myImage.image = UIImage(ciImage: outpuImage as! CIImage) 
+                self.myImage.image = newImage
             }
         }
     }
@@ -122,10 +125,16 @@ class EditingViewController: UIViewController {
     
     lazy var processesDataSource: ProcessDataSource = {
         return ProcessDataSource { [weak self] process in
-            guard let self = self else { return }
-            guard let original = self.originalImage else { return }
-            self.stackedProcessor.push(process: process)
-            self.image = try? self.stackedProcessor.process(image: original)
+            DispatchQueue(label: "processor", qos: .userInitiated).async {
+                guard let self = self else { return }
+                guard let image = self.image else { return }
+//                guard let original = self.originalImage else { return }
+//                self.stackedProcessor.push(process: process)
+                let newImage = try? process.process(image: image) //self.stackedProcessor.process(image: original)
+                DispatchQueue.main.async {
+                    self.image = newImage
+                }
+            }
         }
     }()
     let lightsDataSource = LightsDataSource()
@@ -174,7 +183,7 @@ class ProcessDataSource: NSObject, UICollectionViewDataSource, UICollectionViewD
     
     init(callback: @escaping (ImageProcess) -> Void) {
         self.callback = callback
-        processes.append(Sepia())
+        processes.append(Sepia(intensity: 10))
         processes.append(Noir())
         processes.append(Fade())
         processes.append(Chrome())

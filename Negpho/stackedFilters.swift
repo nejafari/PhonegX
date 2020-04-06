@@ -13,10 +13,12 @@ import CoreImage.CIFilterBuiltins
 protocol ImageProcess {
        func process(image: UIImage) throws -> UIImage
    }
+
 enum ProcessError: Error {
     case InputImageFailed
     case OutputImageFailed
 }
+
 struct AnyImageProcess: ImageProcess {
     private let f: (UIImage) throws -> UIImage
     
@@ -43,26 +45,31 @@ extension ImageProcess {
         try AnyImageProcess.compose(first: self, second: other)
     }
 }
+
 final class Processor: ImageProcess {
     var processes:[ImageProcess]=[]
     
-     func push(process: ImageProcess) {
+    func push(process: ImageProcess) {
         processes.append(process)
     }
-     func DropLastProcess() {
+    
+    func dropLastProcess() {
         processes = processes.dropLast()
     }
-     func ReplaceLast(with process: ImageProcess) {
-        DropLastProcess()
+     
+    func replaceLast(with process: ImageProcess) {
+        dropLastProcess()
         push(process: process)
     }
+    
     func process(image: UIImage) throws -> UIImage {
         try AnyImageProcess.concat(processes: processes).process(image: image)
     }
 }
+
 struct Sepia: ImageProcess {
     let context = CIContext()
-    let intensity = Float()
+    let intensity: Float
     let filter = CIFilter.sepiaTone()
     
     func process(image: UIImage) throws -> UIImage {
@@ -244,7 +251,7 @@ struct Exposure: ImageProcess {
 }
 struct Contrast: ImageProcess {
     let context = CIContext()
-    let level = Float()
+    let level: Float
     let filter = CIFilter.colorControls()
     
     func process(image: UIImage) throws -> UIImage {
