@@ -36,16 +36,16 @@ class EditingViewController: UIViewController {
         }
     }
     
-    let brighnessQueue = DispatchQueue(label: "", qos: .userInitiated, attributes: .concurrent)
+    let contrastQueue = DispatchQueue(label: "", qos: .userInitiated, attributes: .concurrent)
     func adjustContrast(image: CIImage, level: Float) {
-        brighnessQueue.async {
-            guard let filter = CIFilter(name: "CIColorControls") else { fatalError("Unable to create filter.") }
-            filter.setValue(NSNumber(value: level), forKey: "inputContrast")
-            let rawimgData = image
-            filter.setValue(rawimgData, forKey: "inputImage")
-            let outpuImage = filter.value(forKey: "outputImage")
+        guard let image = self.image else { return }
+        let contrast = Contrast(level: level, intensity: 0.3)
+        stackedProcessor.replaceLast(with: contrast)
+        
+        contrastQueue.async {
+            let newImage = try? self.stackedProcessor.process(image: image)
             DispatchQueue.main.async {
-                self.myImage.image = UIImage(ciImage: outpuImage as! CIImage) 
+                self.myImage.image = newImage
             }
         }
     }
@@ -53,7 +53,6 @@ class EditingViewController: UIViewController {
     @IBAction func saveButton(_ sender: Any) {
         func renderCompositeImage() -> UIImage? {
             UIGraphicsBeginImageContext(renderView.bounds.size)
-            //[UIImage drawInRect:CGRectMake(0, 0, size.width, size.height)];
             renderView.layer.render(in: UIGraphicsGetCurrentContext()!)
             let image = UIGraphicsGetImageFromCurrentImageContext()
             UIGraphicsEndImageContext()
@@ -110,6 +109,7 @@ class EditingViewController: UIViewController {
             myImage.image = image
         }
     }
+    
     var originalImage: UIImage?
     @IBOutlet var myImage: UIImageView!
     @IBOutlet var collectionView: UICollectionView!
@@ -122,10 +122,14 @@ class EditingViewController: UIViewController {
     
     lazy var processesDataSource: ProcessDataSource = {
         return ProcessDataSource { [weak self] process in
-            guard let self = self else { return }
-            guard let original = self.originalImage else { return }
-            self.stackedProcessor.push(process: process)
-            self.image = try? self.stackedProcessor.process(image: original)
+            DispatchQueue(label: "processor", qos: .userInitiated).async {
+                guard let self = self else { return }
+                guard let image = self.image else { return }
+                let newImage = try? process.process(image: image)
+                DispatchQueue.main.async {
+                    self.image = newImage
+                }
+            }
         }
     }()
     let lightsDataSource = LightsDataSource()
@@ -174,20 +178,22 @@ class ProcessDataSource: NSObject, UICollectionViewDataSource, UICollectionViewD
     
     init(callback: @escaping (ImageProcess) -> Void) {
         self.callback = callback
-        processes.append(Sepia())
+        processes.append(Sepia(intensity: 0.8))
         processes.append(Noir())
         processes.append(Fade())
         processes.append(Chrome())
         processes.append(Instant())
         processes.append(Blue())
-        processes.append(Gamma())
+        processes.append(Transfer())
         processes.append(Mono())
-        processes.append(Matrix())
-        processes.append(Exposure())
+        processes.append(Monochrome(intensity: 1.00))
+        processes.append(Vignette(intensity: 1.00))
     }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return processes.count
     }
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! filtersCollectionViewCell
         let imageProcessor = processes[indexPath.item]
@@ -200,10 +206,6 @@ class ProcessDataSource: NSObject, UICollectionViewDataSource, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let imageProcess = processes[indexPath.item]
-        //let filter: (UIImage) -> UIImage = { image in
-        //            guard let updated = try? imageProcess.process(image: image) else { return image }
-        //            return updated
-        //        }
         callback(imageProcess)
     }
 }
