@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="vZe-tJ-2DF">
-    <device id="retina6_5" orientation="portrait" appearance="light"/>
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
@@ -13,7 +13,7 @@
             <objects>
                 <navigationController id="vZe-tJ-2DF" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="zLo-YH-bjt">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -29,40 +29,20 @@
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Negpho" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mU8-t4-3ou">
-                                <rect key="frame" x="64" y="270.66666666666669" width="286" height="437.00000000000006"/>
+                                <rect key="frame" x="64" y="270.66666666666674" width="247" height="379.33333333333326"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="255" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P5B-TZ-g4E">
-                                <rect key="frame" x="64" y="734" width="116" height="56"/>
-                                <color key="backgroundColor" red="0.61960784313725492" green="0.73725490196078436" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="56" id="JkE-U2-TND"/>
-                                    <constraint firstAttribute="width" constant="116" id="ViP-vE-g4W"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                <state key="normal" title="Import Photo ">
-                                    <color key="titleColor" red="0.12941176470588234" green="0.14117647058823529" blue="0.20784313725490194" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="15"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <action selector="uploadButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KkG-Pa-b8c"/>
-                                </connections>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PhonegX" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lrH-o7-oVg">
-                                <rect key="frame" x="87" y="114" width="240" height="67"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PhonegX" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="28" translatesAutoresizingMaskIntoConstraints="NO" id="lrH-o7-oVg">
+                                <rect key="frame" x="69.333333333333329" y="114" width="236.33333333333337" height="67"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="56"/>
                                 <color key="textColor" red="0.12549019607843137" green="0.31372549019607843" blue="0.31372549019607843" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EDIT YOUR PICTURES HERE!" textAlignment="center" lineBreakMode="tailTruncation" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fKU-Pu-nSy">
-                                <rect key="frame" x="50" y="188.66666666666666" width="314" height="61"/>
+                                <rect key="frame" x="37.666666666666657" y="188.66666666666666" width="300" height="61"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="61" id="P3x-St-KRW"/>
                                 </constraints>
@@ -70,39 +50,67 @@
                                 <color key="textColor" red="0.61960784313725492" green="0.81794839511146922" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="255" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OxP-HM-lbs">
-                                <rect key="frame" x="234" y="734" width="116" height="56"/>
-                                <color key="backgroundColor" red="0.61960784313725492" green="0.73725490196078436" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <state key="normal" title="Edit Photo">
-                                    <color key="titleColor" red="0.12941176470588234" green="0.14117647058823529" blue="0.20784313725490194" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="15"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <segue destination="CfH-H1-Hx4" kind="show" identifier="editSegue" id="g6E-GB-ZnD"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="HxB-UN-5f5">
+                                <rect key="frame" x="64" y="682" width="247" height="56"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="255" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nTm-az-IjO">
+                                        <rect key="frame" x="0.0" y="0.0" width="115.66666666666667" height="56"/>
+                                        <color key="backgroundColor" red="0.61960784310000006" green="0.73725490199999999" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="56" id="8Ci-I3-bCX"/>
+                                            <constraint firstAttribute="width" constant="116" id="9R0-pE-0wL"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" title="Import Photo ">
+                                            <color key="titleColor" red="0.12941176469999999" green="0.14117647059999999" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="15"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="9R0-pE-0wL"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="uploadButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GYp-rH-9WF"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="255" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bur-32-6qJ">
+                                        <rect key="frame" x="131.66666666666666" y="0.0" width="115.33333333333334" height="56"/>
+                                        <color key="backgroundColor" red="0.61960784310000006" green="0.73725490199999999" blue="0.69803921570000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <state key="normal" title="Edit Photo">
+                                            <color key="titleColor" red="0.12941176469999999" green="0.14117647059999999" blue="0.20784313730000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="15"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <segue destination="CfH-H1-Hx4" kind="show" id="xvV-LE-XUm"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="56" id="K3l-NA-VQa"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="lrH-o7-oVg" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="604-5R-UKI"/>
-                            <constraint firstItem="lrH-o7-oVg" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="87" id="7Pz-Xk-Hvi"/>
                             <constraint firstItem="mU8-t4-3ou" firstAttribute="top" secondItem="fKU-Pu-nSy" secondAttribute="bottom" constant="21.000000000000085" id="FxN-sn-nXi"/>
-                            <constraint firstItem="mU8-t4-3ou" firstAttribute="leading" secondItem="P5B-TZ-g4E" secondAttribute="leading" id="MUo-IO-OZ9"/>
+                            <constraint firstItem="HxB-UN-5f5" firstAttribute="width" secondItem="mU8-t4-3ou" secondAttribute="width" id="Haa-DG-vxM"/>
                             <constraint firstItem="lrH-o7-oVg" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="26" id="Nm7-XY-8IW"/>
                             <constraint firstItem="fKU-Pu-nSy" firstAttribute="centerX" secondItem="mU8-t4-3ou" secondAttribute="centerX" id="UIo-jA-mLY"/>
-                            <constraint firstItem="P5B-TZ-g4E" firstAttribute="top" secondItem="mU8-t4-3ou" secondAttribute="bottom" constant="26.333333333333258" id="Z9k-br-Oxe"/>
-                            <constraint firstItem="P5B-TZ-g4E" firstAttribute="baseline" secondItem="OxP-HM-lbs" secondAttribute="firstBaseline" id="bRz-g9-BFW"/>
-                            <constraint firstItem="fKU-Pu-nSy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="cGO-OG-07u"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="HxB-UN-5f5" secondAttribute="bottom" constant="40" id="bUT-M9-o1X"/>
                             <constraint firstItem="mU8-t4-3ou" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="64" id="dl8-3u-lnZ"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="P5B-TZ-g4E" secondAttribute="bottom" constant="72" id="ewQ-qM-fXA"/>
+                            <constraint firstItem="HxB-UN-5f5" firstAttribute="centerX" secondItem="mU8-t4-3ou" secondAttribute="centerX" id="e6E-cx-qBU"/>
+                            <constraint firstItem="HxB-UN-5f5" firstAttribute="top" secondItem="mU8-t4-3ou" secondAttribute="bottom" constant="32" id="f4l-Cs-1oV"/>
                             <constraint firstItem="lrH-o7-oVg" firstAttribute="centerX" secondItem="fKU-Pu-nSy" secondAttribute="centerX" id="inE-j9-pfx"/>
-                            <constraint firstItem="P5B-TZ-g4E" firstAttribute="top" secondItem="OxP-HM-lbs" secondAttribute="top" id="rzd-ie-Ikm"/>
-                            <constraint firstItem="mU8-t4-3ou" firstAttribute="trailing" secondItem="OxP-HM-lbs" secondAttribute="trailing" id="sMQ-BG-ezB"/>
-                            <constraint firstItem="OxP-HM-lbs" firstAttribute="leading" secondItem="P5B-TZ-g4E" secondAttribute="trailing" constant="54" id="uWo-KO-5Vj"/>
                             <constraint firstItem="fKU-Pu-nSy" firstAttribute="top" secondItem="lrH-o7-oVg" secondAttribute="bottom" constant="7.6666666666666572" id="yBO-xF-EWX"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -115,18 +123,18 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="23.188405797101453" y="129.24107142857142"/>
+            <point key="canvasLocation" x="21.600000000000001" y="128.57142857142858"/>
         </scene>
         <!--Editing-->
         <scene sceneID="leu-xr-135">
             <objects>
                 <viewController storyboardIdentifier="EditingViewController" id="CfH-H1-Hx4" customClass="EditingViewController" customModule="Negpho" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tPV-Kf-5LA">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GXK-Km-uh2">
-                                <rect key="frame" x="0.0" y="814" width="414" height="49"/>
+                                <rect key="frame" x="0.0" y="735" width="375" height="44"/>
                                 <items>
                                     <barButtonItem title="Filters" image="wand.and.rays" catalog="system" id="d1r-FU-9vH">
                                         <color key="tintColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -158,14 +166,14 @@
                                 </items>
                             </toolbar>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tof-a9-ijI" userLabel="Render View">
-                                <rect key="frame" x="56" y="131" width="302" height="586"/>
+                                <rect key="frame" x="56" y="131" width="263" height="507"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gkj-yp-rCU">
-                                        <rect key="frame" x="0.0" y="0.0" width="302" height="586"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="263" height="507"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     </imageView>
                                     <view userInteractionEnabled="NO" alpha="0.29999999999999999" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aqP-Lc-pvW" customClass="CanvasView" customModule="Negpho" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="302" height="586"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="263" height="507"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     </view>
@@ -173,7 +181,7 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="FeL-wX-6pH">
-                                <rect key="frame" x="20" y="745" width="374" height="55"/>
+                                <rect key="frame" x="20" y="666" width="335" height="55"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="55" id="TLG-RB-yOc"/>
@@ -192,7 +200,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="flower" translatesAutoresizingMaskIntoConstraints="NO" id="QCB-i3-nqi">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="flower" translatesAutoresizingMaskIntoConstraints="NO" id="QCB-i3-nqi">
                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                                                 </imageView>
@@ -264,7 +272,7 @@
                             </barButtonItem>
                             <barButtonItem image="arrow.clockwise" catalog="system" style="plain" id="2lA-6m-xFY">
                                 <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="MiC-UX-7Wg">
-                                    <rect key="frame" x="331" y="11" width="18" height="22"/>
+                                    <rect key="frame" x="296" y="11" width="18" height="22"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <state key="normal" image="arrow.clockwise" catalog="system"/>
                                     <connections>

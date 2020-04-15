@@ -18,7 +18,10 @@ class EditingViewController: UIViewController {
     @IBOutlet weak var canvasView: CanvasView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        image.map { img in myImage.image = img }
+        image.map { img in
+            myImage.image = img
+            processesDataSource.userImage = img
+        }
         lightsDataSource.editingViewController = self
     }
     
@@ -107,6 +110,7 @@ class EditingViewController: UIViewController {
         didSet {
             guard isViewLoaded else { return }
             myImage.image = image
+            processesDataSource.userImage = image
         }
     }
     
@@ -175,6 +179,16 @@ class ProcessDataSource: NSObject, UICollectionViewDataSource, UICollectionViewD
     typealias Process = (UIImage) -> UIImage
     var processes: [ImageProcess] = []
     let callback: (ImageProcess) -> Void
+    var cachedImages = [String: UIImage]()
+    private var thumbnail: UIImage? = nil
+    var userImage: UIImage? = nil {
+        didSet {
+            guard let image = self.userImage else { return }
+            guard let data = image.jpegData(compressionQuality: 50) else { return }
+            let thumb = UIImage(data: data)
+            self.thumbnail = thumb
+        }
+    }
     
     init(callback: @escaping (ImageProcess) -> Void) {
         self.callback = callback
@@ -197,8 +211,15 @@ class ProcessDataSource: NSObject, UICollectionViewDataSource, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! filtersCollectionViewCell
         let imageProcessor = processes[indexPath.item]
-        if let image = cell.imageView.image {
-            cell.imageView.image = try? imageProcessor.process(image: image)
+        
+        if let image = thumbnail { //cell.imageView.image {
+            if let cached = cachedImages[imageProcessor.title] {
+                cell.imageView.image = cached
+            } else {
+                let newImage = try? imageProcessor.process(image: image)
+                cell.imageView.image = newImage
+                cachedImages[imageProcessor.title] = newImage
+            }
         }
         cell.layer.cornerRadius = 12
         cell.titleLabel.text = imageProcessor.title
