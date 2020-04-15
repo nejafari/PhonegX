@@ -208,6 +208,7 @@
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <connections>
                                             <outlet property="imageView" destination="QCB-i3-nqi" id="H55-OO-Vwj"/>
+                                            <outlet property="titleLabel" destination="h3Q-32-j17" id="aMa-KI-nhN"/>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SliderCell" id="COD-Dv-uPz" customClass="SliderCell" customModule="Negpho" customModuleProvider="target">

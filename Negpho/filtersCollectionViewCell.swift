@@ -10,4 +10,5 @@ import UIKit
 
 class filtersCollectionViewCell: UICollectionViewCell {
     @IBOutlet var imageView: UIImageView!
+    @IBOutlet weak var titleLabel: UILabel!
 }

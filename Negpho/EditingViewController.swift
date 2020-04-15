@@ -201,6 +201,7 @@ class ProcessDataSource: NSObject, UICollectionViewDataSource, UICollectionViewD
             cell.imageView.image = try? imageProcessor.process(image: image)
         }
         cell.layer.cornerRadius = 12
+        cell.titleLabel.text = imageProcessor.title
         return cell
     }
     
