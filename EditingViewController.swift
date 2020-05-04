@@ -18,7 +18,10 @@ class EditingViewController: UIViewController {
     @IBOutlet weak var canvasView: CanvasView!
     override func viewDidLoad() {
         super.viewDidLoad()
-        image.map { img in myImage.image = img }
+        image.map { img in
+            myImage.image = img
+            processesDataSource.userImage = img
+        }
         lightsDataSource.editingViewController = self
     }
     
@@ -107,6 +110,7 @@ class EditingViewController: UIViewController {
         didSet {
             guard isViewLoaded else { return }
             myImage.image = image
+            processesDataSource.userImage = image
         }
     }
     
@@ -171,78 +175,7 @@ extension EditingViewController {
     }
 }
 
-class ProcessDataSource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate {
-    typealias Process = (UIImage) -> UIImage
-    var processes: [ImageProcess] = []
-    let callback: (ImageProcess) -> Void
-    
-    init(callback: @escaping (ImageProcess) -> Void) {
-        self.callback = callback
-        processes.append(Sepia(intensity: 0.8))
-        processes.append(Noir())
-        processes.append(Fade())
-        processes.append(Chrome())
-        processes.append(Instant())
-        processes.append(Blue())
-        processes.append(Transfer())
-        processes.append(Mono())
-        processes.append(Monochrome(intensity: 1.00))
-        processes.append(Vignette(intensity: 1.00))
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return processes.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! filtersCollectionViewCell
-        let imageProcessor = processes[indexPath.item]
-        if let image = cell.imageView.image {
-            cell.imageView.image = try? imageProcessor.process(image: image)
-        }
-        cell.layer.cornerRadius = 12
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let imageProcess = processes[indexPath.item]
-        callback(imageProcess)
-    }
-}
 
-class LightsDataSource: NSObject, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    
-    weak var editingViewController: EditingViewController?
-    
-    private var sliderObserver: AnyCancellable?
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SliderCell", for: indexPath) as! SliderCell
-        sliderObserver = cell.slider.publisher(for: \.value)
-            .removeDuplicates()
-            .debounce(for: 0.2, scheduler: RunLoop.main)
-            .receive(on: DispatchQueue.main)
-            .sink(receiveValue: { [weak editingViewController] value in
-                guard let vc = editingViewController, let image = vc.image?.cgImage else {
-                    return
-                }
-                vc.adjustContrast(image: CIImage(cgImage: image), level: value)
-            })
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // do nothing, just return
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.frame.size.width, height: 44)
-    }
-}
 
 class SliderCell: UICollectionViewCell {
     @IBOutlet var slider: UISlider!

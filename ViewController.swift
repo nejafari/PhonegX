@@ -20,7 +20,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
               return .lightContent
         }
     }
-    //Upload image
+    
     @IBAction func uploadButton(_ sender: Any) {
         let myAlert = UIAlertController(title: "Select Image:", message: "", preferredStyle: .actionSheet)
         let camera = UIAlertAction(title: "Camera", style: .default) {
@@ -45,7 +45,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
         myAlert.addAction(cameraRoll)
         self.present(myAlert, animated: true, completion: nil)
      }
-    //image picker
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             imageView.image = pickedImage
@@ -54,7 +54,7 @@ class ViewController: UIViewController, UINavigationControllerDelegate, UIImageP
             self.performSegue(withIdentifier: "launchEditor", sender: nil)
         }
     }
-    //opening up editingviewcontroller after uploading
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let editing = segue.destination as? EditingViewController else { return }
         guard let image = imageView.image else {

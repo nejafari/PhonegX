@@ -11,8 +11,9 @@ import CoreImage
 import CoreImage.CIFilterBuiltins
 
 protocol ImageProcess {
-       func process(image: UIImage) throws -> UIImage
-   }
+    var title: String { get }
+    func process(image: UIImage) throws -> UIImage
+}
 
 enum ProcessError: Error {
     case InputImageFailed
@@ -20,6 +21,7 @@ enum ProcessError: Error {
 }
 
 struct AnyImageProcess: ImageProcess {
+    let title: String = "Any"
     private let f: (UIImage) throws -> UIImage
     
     init(process: @escaping (UIImage) throws -> UIImage) {
@@ -49,24 +51,27 @@ extension ImageProcess {
 }
 
 final class Processor: ImageProcess {
+    let title: String = "Processor"
     var processes:[ImageProcess]=[]
     
-     func push(process: ImageProcess) {
+    func push(process: ImageProcess) {
         processes.append(process)
     }
-     func dropLastProcess() {
+    func dropLastProcess() {
         processes = processes.dropLast()
     }
-     func replaceLast(with process: ImageProcess) {
+    func replaceLast(with process: ImageProcess) {
         dropLastProcess()
         push(process: process)
     }
+    
     func process(image: UIImage) throws -> UIImage {
         try AnyImageProcess.concat(processes: processes).process(image: image)
     }
 }
 
 struct Sepia: ImageProcess {
+    let title: String = "Sepia"
     let context = CIContext()
     let intensity: Float
     let filter = CIFilter.sepiaTone()
@@ -88,6 +93,7 @@ struct Sepia: ImageProcess {
 }
 
 struct Noir: ImageProcess {
+    let title: String = "Noir"
     let context = CIContext()
     let filter = CIFilter.photoEffectNoir()
     
@@ -107,6 +113,7 @@ struct Noir: ImageProcess {
 }
 
 struct Fade: ImageProcess {
+    let title: String = "Fade"
     let context = CIContext()
     let filter = CIFilter.photoEffectFade()
     
@@ -126,6 +133,7 @@ struct Fade: ImageProcess {
 }
 
 struct Chrome: ImageProcess {
+    let title: String = "Chrome"
     let context = CIContext()
     let filter = CIFilter.photoEffectChrome()
     
@@ -145,6 +153,7 @@ struct Chrome: ImageProcess {
 }
 
 struct Instant: ImageProcess {
+    let title: String = "Instant"
     let context = CIContext()
     let filter = CIFilter.photoEffectInstant()
     
@@ -164,6 +173,7 @@ struct Instant: ImageProcess {
 }
 
 struct Blue: ImageProcess {
+    let title: String = "Blue"
     let context = CIContext()
     let filter = CIFilter.photoEffectProcess()
     
@@ -183,6 +193,7 @@ struct Blue: ImageProcess {
 }
 
 struct Transfer: ImageProcess {
+    let title: String = "Transfer"
     let context = CIContext()
     let filter = CIFilter.photoEffectTransfer()
     
@@ -202,6 +213,7 @@ struct Transfer: ImageProcess {
 }
 
 struct Mono: ImageProcess {
+    let title: String = "Mono"
     let context = CIContext()
     let filter = CIFilter.photoEffectMono()
     
@@ -221,6 +233,7 @@ struct Mono: ImageProcess {
 }
 
 struct Monochrome: ImageProcess {
+    let title: String = "Monochrome"
     let context = CIContext()
     let intensity: Float
     let filter = CIFilter.colorMonochrome()
@@ -242,6 +255,7 @@ struct Monochrome: ImageProcess {
 }
 
 struct Vignette: ImageProcess {
+    let title: String = "Vignette"
     let context = CIContext()
     let intensity: Float
     let filter = CIFilter.vignette()
@@ -263,6 +277,7 @@ struct Vignette: ImageProcess {
 }
 
 struct Contrast: ImageProcess {
+    let title: String = "Contrast"
     let context = CIContext()
     let level: Float
     let intensity: Float
@@ -284,7 +299,6 @@ struct Contrast: ImageProcess {
     }
 }
 
-class stackedFilters: UIView {
-
+class StackedFilters: UIView {
 }
 
