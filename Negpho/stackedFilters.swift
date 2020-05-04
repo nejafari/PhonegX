@@ -299,7 +299,6 @@ struct Contrast: ImageProcess {
     }
 }
 
-class stackedFilters: UIView {
-    
+class StackedFilters: UIView {
 }
 
