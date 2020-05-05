@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Combine
 
 class DataSources: NSObject {
     class ProcessDataSource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate {
@@ -23,9 +24,11 @@ class DataSources: NSObject {
                 self.thumbnail = thumb
             }
         }
+        let original: UIImage?
         
-        init(callback: @escaping (ImageProcess) -> Void) {
+        init(original: UIImage?, callback: @escaping (ImageProcess) -> Void) {
             self.callback = callback
+            self.original = original
             processes.append(Sepia(intensity: 0.8))
             processes.append(Noir())
             processes.append(Fade())
@@ -50,9 +53,14 @@ class DataSources: NSObject {
                 if let cached = cachedImages[imageProcessor.title] {
                     cell.imageView.image = cached
                 } else {
-                    let newImage = try? imageProcessor.process(image: image)
-                    cell.imageView.image = newImage
-                    cachedImages[imageProcessor.title] = newImage
+                    cell.imageView.image = original
+                    DispatchQueue.global(qos: .userInitiated).async {
+                        let newImage = try? imageProcessor.process(image: image)
+                        DispatchQueue.main.async {
+                            cell.imageView.image = newImage
+                            self.cachedImages[imageProcessor.title] = newImage
+                        }
+                    }
                 }
             }
             cell.layer.cornerRadius = 12
@@ -63,6 +71,10 @@ class DataSources: NSObject {
         func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
             let imageProcess = processes[indexPath.item]
             callback(imageProcess)
+        }
+        
+        func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+            return CGSize(width: 75, height: 75)
         }
     }
 

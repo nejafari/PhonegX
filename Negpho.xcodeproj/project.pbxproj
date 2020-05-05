@@ -17,6 +17,7 @@
 		BC729C0E2388779B008215FF /* EditingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC729C0D2388779B008215FF /* EditingViewController.swift */; };
 		BCCE5D34241960AC00EC8162 /* stackedFilters.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCE5D33241960AC00EC8162 /* stackedFilters.swift */; };
 		BCF35D1323A42EE800CAF9FB /* filtersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF35D1223A42EE800CAF9FB /* filtersCollectionViewCell.swift */; };
+		C08F58592460B1690006DCF8 /* DataSources.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08F58582460B1690006DCF8 /* DataSources.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		BC729C0D2388779B008215FF /* EditingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingViewController.swift; sourceTree = "<group>"; };
 		BCCE5D33241960AC00EC8162 /* stackedFilters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = stackedFilters.swift; sourceTree = "<group>"; };
 		BCF35D1223A42EE800CAF9FB /* filtersCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = filtersCollectionViewCell.swift; sourceTree = "<group>"; };
+		C08F58582460B1690006DCF8 /* DataSources.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSources.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 		BC44A2802383488A0000A151 /* Negpho */ = {
 			isa = PBXGroup;
 			children = (
+				C08F58582460B1690006DCF8 /* DataSources.swift */,
 				BC44A2812383488A0000A151 /* AppDelegate.swift */,
 				BC44A2832383488A0000A151 /* SceneDelegate.swift */,
 				BC44A2852383488A0000A151 /* ViewController.swift */,
@@ -153,6 +156,7 @@
 			files = (
 				BC44A2862383488A0000A151 /* ViewController.swift in Sources */,
 				BCF35D1323A42EE800CAF9FB /* filtersCollectionViewCell.swift in Sources */,
+				C08F58592460B1690006DCF8 /* DataSources.swift in Sources */,
 				BC3B5B6E23E23F850011A54D /* CanvasView.swift in Sources */,
 				BCCE5D34241960AC00EC8162 /* stackedFilters.swift in Sources */,
 				BC729C0E2388779B008215FF /* EditingViewController.swift in Sources */,
